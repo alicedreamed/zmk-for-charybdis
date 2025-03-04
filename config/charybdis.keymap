@@ -10,52 +10,76 @@
 #include <dt-bindings/zmk/rgb.h>
 
 / {
+    macros {
+        To1_macro: To1_macro {
+            compatible = "zmk,behavior-macro";
+            label = "To1_macro";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_EFF &rgb_ug RGB_COLOR_HSB(128,100,50) &mo 1>;
+        };
 
+        To1_macro_A: To1_macro_A {
+            compatible = "zmk,behavior-macro";
+            label = "To1_macro_A";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_COLOR_HSB(128,100,50) &mo 1>;
+        };
 
+        To0_macro: To0_macro {
+            compatible = "zmk,behavior-macro";
+            label = "To0_macro";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_EFR &mo 0>;
+        };
 
-macros {
-    To1_macro: To1_macro {
-        compatible = "zmk,behavior-macro";
-        label = "To1_macro";
-        #binding-cells = <0>;
-        bindings = <&rgb_ug RGB_EFF>,<&rgb_ug RGB_COLOR_HSB(128,100,50)>,<&to 1>;
+        To2_macro_A: To2_macro_A {
+            compatible = "zmk,behavior-macro";
+            label = "To2_macro_A";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_COLOR_HSB(250,100,50) &mo 2>;
+        };
+
+        To2_macro: To2_macro {
+            compatible = "zmk,behavior-macro";
+            label = "To2_macro";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_EFF &rgb_ug RGB_COLOR_HSB(250,100,50) &mo 2>;
+        };
+
+        To3_macro: To_3 {
+            compatible = "zmk,behavior-macro";
+            label = "TO_3";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_EFF &rgb_ug RGB_COLOR_HSB(360,100,46) &mo 3>;
+        };
     };
 
-   To1_macro_A: To1_macro_A {
-        compatible = "zmk,behavior-macro";
-        label = "To1_macro_A";
-        #binding-cells = <0>;
-        bindings = <&rgb_ug RGB_COLOR_HSB(128,100,50)>,<&to 1>;
+    behaviors {
+        th1_space: th1_space {
+            compatible = "zmk,behavior-hold-tap";
+            label = "TH1_SPACE";
+            bindings = <&To1_macro>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <180>;
+        };
+
+        th2_cmdspace: th2_cmdspace {
+            compatible = "zmk,behavior-hold-tap";
+            label = "TH2_CMDSPACE";
+            bindings = <&none>, <&none>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <180>;
+            flavor = "tap-preferred";
+        };
     };
-
-    To0_macro: To0_macro {
-        compatible = "zmk,behavior-macro";
-        label = "To0_macro";
-        #binding-cells = <0>;
-        bindings = <&rgb_ug RGB_EFR>,<&to 0>;
-    };
-
-     To2_macro_A: To2_macro_A {
-        compatible = "zmk,behavior-macro";
-        label = "To2_macro_A";
-        #binding-cells = <0>;
-        bindings = <&rgb_ug RGB_COLOR_HSB(250,100,50)>,<&to 2>;
-    };
-
-     To2_macro: To2_macro {
-        compatible = "zmk,behavior-macro";
-        label = "To2_macro";
-        #binding-cells = <0>;
-        bindings = <&rgb_ug RGB_EFF>,<&rgb_ug RGB_COLOR_HSB(250,100,50)>,<&to 2>;
-    };
-};
-
-
 
     keymap {
         compatible = "zmk,keymap";
 
-        layer-0 {
+        main {
             // -----------------------------------------------------------------------------------------------------------------------------------
             // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                                   |  Y   |  U    |  I    |  O   |   P   |   \   |
             // |  TAB  |  A  |  S  |  D   |  F   |  G   |                                   |  H   |  J    |  K    |  L   |   ;   |   '   |
@@ -65,16 +89,15 @@ macros {
             // |             |            |  ALT | LEFT |					            |  END |  ALT |
 
             bindings = <
-&kp GRAVE       &kp Q  &kp W        &kp E         &kp R     &kp T        &kp Y      &kp U          &kp I             &kp O              &kp P     &kp BACKSLASH
-&kp TAB         &kp A  &kp S        &kp D         &kp F     &kp G        &kp H      &kp J          &kp K             &kp L              &kp SEMI  &kp APOS
-&kp LEFT_SHIFT  &kp Z  &kp X        &kp C         &kp V     &kp B        &kp N      &kp M          &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp FSLH  &kp RIGHT_SHIFT
-                       &lt 3 MINUS  &kp EQUAL     &kp ESC   &kp SPACE    &kp ENTER  &kp BACKSPACE  &kp COMMA         &lt 3 PERIOD
-                          &kp LALT  &kp LCTRL &To1_macro     &kp LEFT_WIN      &kp RIGHT_WIN   &To2_macro &kp RCTRL  &kp RALT
-                                                    
+&kp TAB         &kp Q        &kp W            &kp E             &kp R         &kp T                         &kp Y                       &kp U           &kp I              &kp O              &kp P                &kp GRAVE
+&kp ESCAPE      &mt LCTRL A  &mt LEFT_ALT S   &mt LEFT_SHIFT D  &mt LGUI F    &mt LS(LA(LC(LEFT_GUI))) G    &mt RS(RA(RC(LEFT_GUI))) H  &mt LEFT_GUI J  &mt RIGHT_SHIFT K  &mt RIGHT_ALT L    &mt RCTRL SEMICOLON  &kp APOS
+&kp LEFT_SHIFT  &kp Z        &kp X            &kp C             &kp V         &kp B                         &kp N                       &kp M           &kp COMMA          &kp PERIOD         &kp FSLH             &kp BACKSLASH
+                             &kp MINUS        &kp EQUAL         &kp LEFT_GUI  &lt 1 SPACE                   &kp ENTER                   &kp BACKSPACE   &kp LEFT_BRACKET   &kp RIGHT_BRACKET
+                             &lt 3 LC(SPACE)  &lt 2 LG(SPACE)   &To1_macro    &kp LEFT_WIN                  &kp LS(RET)                 &To2_macro      &kp LS(RET)        &To3_macro
             >;
         };
 
-        layer-1 {
+        num {
             // ------------------------------------------------------------------------------------------------------------
             // |       |  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
             // | `     |   1 |   2 |   3  |   4  |   5  |                   |   6  |   7   |   8   |   9  |    0  |  F12  |
@@ -84,37 +107,29 @@ macros {
             //               |     |      |      |      |                   |      |       |       |      |
 
             bindings = <
-&kp F1    &kp F2  &kp F3      &kp F4      &kp F5       &kp F6           &kp F7  &kp F8  &kp F9          &kp F10         &kp F11          &kp F12
-&kp CAPS  &kp N1  &kp N2      &kp N3      &kp N4       &kp N5           &kp N6  &kp N7  &kp N8          &kp N9          &kp N0           &none
-&none     &none   &kp C_MENU  &kp INSERT  &kp PAGE_UP  &kp PAGE_DOWN    &none   &none   &none           &kp UP_ARROW    &kp RIGHT_ARROW  &none
-                  &none       &none       &none        &none            &none   &none   &kp LEFT_ARROW  &kp DOWN_ARROW
-                        &none      &none &To0_macro        &none            &none   &To2_macro_A   &none           &none
+&trans  &kp EXCLAMATION  &kp AT_SIGN  &kp HASH   &kp DOLLAR        &kp PERCENT          &kp CARET       &kp AMPERSAND    &kp ASTERISK  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp EQUAL
+&trans  &kp N1           &kp N2       &kp N3     &kp N4            &kp N5               &kp N6          &kp N7           &kp N8        &kp N9                &kp N0                 &kp MINUS
+&trans  &none            &kp TILDE    &kp GRAVE  &kp LEFT_BRACKET  &kp RIGHT_BRACKET    &kp LEFT_BRACE  &kp RIGHT_BRACE  &trans        &trans                &trans                 &trans
+                         &none        &none      &none             &none                &trans          &trans           &trans        &trans
+                         &trans       &trans     &trans            &trans               &trans          &trans           &trans        &trans
             >;
         };
 
-        layer-2 {
-            // ------------------------------------------------------------------------------------------------------------
-            // |BTCLR| BT1  | BT2  |  BT3  |  BT4  |  BT5 |                |      |      |       |      |       | BTCLR |
-            // |     | INS  | PSCR | GUI   |       |      |                | PGUP |      |   ^   |      |       |       |
-            // |     | ALT  | CTRL | SHIFT |       | CAPS |                | PGDN |   <- |   v   |  ->  |  DEL  | BKSPC |
-            // |            | UNDO | CUT   | COPY  |PASTE |                |      |      |       |      |
-            //                             |      |       |                |      |      |    
-            //                             |      |       |                |      |      |      
-
+        media {
             bindings = <
-&none  &none  &none  &none  &none  &none    &kp N7     &kp N8         &kp N9          &kp KP_MINUS    &kp KP_DIVIDE    &kp PRINTSCREEN
-&none  &none  &none  &none  &none  &none    &kp N4     &kp N5         &kp N6          &kp KP_PLUS     &kp KP_MULTIPLY  &kp HOME
-&none  &none  &none  &none  &none  &none    &kp N1     &kp N2         &kp N3          &kp UP_ARROW    &kp RIGHT_ARROW  &kp END
-              &none  &none  &none  &none    &kp ENTER  &kp BACKSPACE  &kp LEFT_ARROW  &kp DOWN_ARROW
-              &none  &none  &To1_macro_A   &none         &kp ESC         &To0_macro  &kp N0     &kp PERIOD
+&trans  &trans  &trans          &kp UP_ARROW    &trans     &kp LS(LA(C_VOLUME_UP))      &trans    &trans          &trans        &trans     &trans  &trans
+&trans  &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT  &kp LS(LA(C_VOLUME_DOWN))    &kp LEFT  &kp DOWN_ARROW  &kp UP_ARROW  &kp RIGHT  &trans  &trans
+&trans  &trans  &trans          &trans          &trans     &kp K_MUTE                   &trans    &trans          &trans        &trans     &trans  &trans
+                &trans          &trans          &trans     &trans                       &trans    &trans          &trans        &trans
+                &trans          &trans          &trans     &trans                       &trans    &trans          &trans        &trans
             >;
         };
 
-        layer_3 {
+        keyboard {
             bindings = <
-&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &none  &none
-&none       &none         &none         &none         &none         &none           &none            &none            &none            &none            &none  &none
-&none       &none         &none         &none         &none         &none           &none            &none            &none            &none            &none  &none
+&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &none    &none
+&kp F1      &kp F2        &kp F3        &kp F4        &kp F5        &kp F6          &kp F7           &kp F8           &kp F9           &kp F10          &kp F11  &kp F12
+&none       &none         &none         &none         &none         &none           &none            &none            &none            &none            &none    &none
                           &none         &bootloader   &none         &none           &none            &none            &bootloader      &none
                           &none         &none         &none         &none           &none            &none            &none            &none
             >;
