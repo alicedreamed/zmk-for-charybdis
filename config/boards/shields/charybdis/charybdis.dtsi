@@ -95,3 +95,52 @@
         zmk,underglow = &led_strip;
     };
 };
+/ {
+    layer_callbacks {
+        compatible = "elpekenin,layer-callback";
+
+        // Default Layer (0) - Cyan
+        default_layer_on {
+            layer = <0>;
+            event = "on-activation";
+            bindings = <
+                &gpio 1 GPIO_ON   // Green
+                &gpio 2 GPIO_ON   // Blue
+                &gpio 0 GPIO_OFF  // Red off
+            >;
+        };
+
+        // Layer 1 - Green
+        layer1_on {
+            layer = <1>;
+            event = "on-activation";
+            bindings = <
+                &gpio 1 GPIO_ON   // Green
+                &gpio 0 GPIO_OFF  // Red off
+                &gpio 2 GPIO_OFF  // Blue off
+            >;
+        };
+
+        // Layer 2 - Red
+        layer2_on {
+            layer = <2>;
+            event = "on-activation";
+            bindings = <
+                &gpio 0 GPIO_ON   // Red
+                &gpio 1 GPIO_OFF  // Green off
+                &gpio 2 GPIO_OFF  // Blue off
+            >;
+        };
+
+        // Layer 3 - Purple (Red + Blue)
+        layer3_on {
+            layer = <3>;
+            event = "on-activation";
+            bindings = <
+                &gpio 0 GPIO_ON   // Red
+                &gpio 2 GPIO_ON   // Blue
+                &gpio 1 GPIO_OFF  // Green off
+            >;
+        };
+    };
+};
