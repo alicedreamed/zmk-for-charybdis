@@ -1,6 +1,20 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/led/led.h>
-
+#include "elpekenin/behaviors.dtsi"
+/ {
+    gpios {
+        compatible = "gpio-leds";
+        red: red {
+            gpios = <&gpio0 12 GPIO_ACTIVE_LOW>; // Adjust pins per your hardware
+        };
+        green: green {
+            gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+        };
+        blue: blue {
+            gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+        };
+    };
+};
 / {
     chosen {
         zmk,kscan = &kscan0;
