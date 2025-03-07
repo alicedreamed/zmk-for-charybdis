@@ -1,20 +1,6 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/led/led.h>
-#include "elpekenin/behaviors.dtsi"
-/ {
-    gpios {
-        compatible = "gpio-leds";
-        red: red {
-            gpios = <&gpio0 12 GPIO_ACTIVE_LOW>; // Adjust pins per your hardware
-        };
-        green: green {
-            gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
-        };
-        blue: blue {
-            gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
-        };
-    };
-};
+
 / {
     chosen {
         zmk,kscan = &kscan0;
@@ -95,52 +81,4 @@
         zmk,underglow = &led_strip;
     };
 };
-/ {
-    layer_callbacks {
-        compatible = "elpekenin,layer-callback";
 
-        // Default Layer (0) - Cyan
-        default_layer_on {
-            layer = <0>;
-            event = "on-activation";
-            bindings = <
-                &gpio 1 GPIO_ON   // Green
-                &gpio 2 GPIO_ON   // Blue
-                &gpio 0 GPIO_OFF  // Red off
-            >;
-        };
-
-        // Layer 1 - Green
-        layer1_on {
-            layer = <1>;
-            event = "on-activation";
-            bindings = <
-                &gpio 1 GPIO_ON   // Green
-                &gpio 0 GPIO_OFF  // Red off
-                &gpio 2 GPIO_OFF  // Blue off
-            >;
-        };
-
-        // Layer 2 - Red
-        layer2_on {
-            layer = <2>;
-            event = "on-activation";
-            bindings = <
-                &gpio 0 GPIO_ON   // Red
-                &gpio 1 GPIO_OFF  // Green off
-                &gpio 2 GPIO_OFF  // Blue off
-            >;
-        };
-
-        // Layer 3 - Purple (Red + Blue)
-        layer3_on {
-            layer = <3>;
-            event = "on-activation";
-            bindings = <
-                &gpio 0 GPIO_ON   // Red
-                &gpio 2 GPIO_ON   // Blue
-                &gpio 1 GPIO_OFF  // Green off
-            >;
-        };
-    };
-};
