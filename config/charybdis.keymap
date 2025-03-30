@@ -17,14 +17,14 @@
             compatible = "zmk,behavior-macro";
             label = "To1_macro";
             #binding-cells = <0>;
-            bindings = <&rgb_ug RGB_EFF &rgb_ug RGB_COLOR_HSB(128,100,50) &to 1>;
+            bindings = <&rgb_ug RGB_EFF &rgb_ug RGB_COLOR_HSB(128,100,50) &to 0>;
         };
 
         To1_macro_A: To1_macro_A {
             compatible = "zmk,behavior-macro";
             label = "To1_macro_A";
             #binding-cells = <0>;
-            bindings = <&rgb_ug RGB_COLOR_HSB(128,100,50) &to 1>;
+            bindings = <&rgb_ug RGB_COLOR_HSB(128,100,50) &to 0>;
         };
 
         To0_macro: To0_macro {
@@ -81,38 +81,22 @@
     keymap {
         compatible = "zmk,keymap";
 
-        main {
-            // -----------------------------------------------------------------------------------------------------------------------------------
-            // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                                   |  Y   |  U    |  I    |  O   |   P   |   \   |
-            // |  TAB  |  A  |  S  |  D   |  F   |  G   |                                   |  H   |  J    |  K    |  L   |   ;   |   '   |
-            // | CTRL  |  Z  |  X  |  C   |  V   |  B   |        			          	|  N   |  M    |  ,    |  .   |   /   | SHIFT |
-            // |             | GUI |  ~   |SHIFT | SPACE|                 			       | ENTER| BSPC  |   -   |  =   | 
-            // |             |            | CTRL |  DEL |            			            | HOME |  CTRL | 
-            // |             |            |  ALT | LEFT |					            |  END |  ALT |
-
+        Main {
             bindings = <
-&kp TAB         &kp Q        &kp W            &kp E             &kp R         &kp T                         &kp Y                       &kp U           &kp I              &kp O              &kp P                &kp GRAVE
-&kp ESCAPE      &mt LCTRL A  &mt LEFT_ALT S   &mt LEFT_SHIFT D  &mt LGUI F    &mt LS(LA(LC(LEFT_GUI))) G    &mt RS(RA(RC(LEFT_GUI))) H  &mt LEFT_GUI J  &mt RIGHT_SHIFT K  &mt RIGHT_ALT L    &mt RCTRL SEMICOLON  &kp APOS
-&kp LEFT_SHIFT  &kp Z        &kp X            &kp C             &kp V         &kp B                         &kp N                       &kp M           &kp COMMA          &kp PERIOD         &kp FSLH             &kp BACKSLASH
-                             &kp MINUS        &kp EQUAL         &kp LEFT_GUI  &lt 1 SPACE                   &kp ENTER                   &kp BACKSPACE   &kp LEFT_BRACKET   &kp RIGHT_BRACKET
-                             &lt 3 LC(SPACE)  &lt 2 LG(SPACE)   &To1_macro    &kp LEFT_WIN                  &kp LS(RET)                 &to 0           &kp LS(RET)        &mo 3
+&kp TAB    &kp Q        &kp W           &kp E             &kp R         &kp T                     &kp Y                        &kp U            &kp I              &kp O            &kp P                        &kp GRAVE
+&kp ESC    &mt LCTRL A  &mt LEFT_ALT S  &mt LEFT_SHIFT D  &mt LCMD F    &mt LS(LA(LC(LGUI))) G    &mt LS(LC(LA(RIGHT_GUI))) H  &mt RIGHT_GUI J  &mt RIGHT_SHIFT K  &mt RIGHT_ALT L  &mt RIGHT_CONTROL SEMICOLON  &kp APOS
+&kp LSHFT  &kp Z        &kp X           &kp C             &kp V         &kp B                     &kp N                        &kp M            &kp COMMA          &kp DOT          &kp FSLH                     &kp BSLH
+                        &kp MINUS       &kp EQUAL         &kp LEFT_GUI  &lt 1 SPACE               &kp ENTER                    &kp BACKSPACE    &kp LBKT           &kp RBKT
+                        &trans          &lt 2 LG(SPACE)   &trans        &trans                    &trans                       &mo 2            &lt 2 LS(ENTER)    &mo 3
             >;
         };
 
         num {
-            // ------------------------------------------------------------------------------------------------------------
-            // |       |  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
-            // | `     |   1 |   2 |   3  |   4  |   5  |                   |   6  |   7   |   8   |   9  |    0  |  F12  |
-            // |       |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |   |   |
-            //               |     |      |   [  |  ]   |                   |  {   |   }   |       |      |
-            //               |     |      |      |      |                   |      |       |       |      |
-            //               |     |      |      |      |                   |      |       |       |      |
-
             bindings = <
-&trans  &kp EXCLAMATION  &kp AT_SIGN  &kp HASH   &kp DOLLAR        &kp PERCENT          &kp CARET       &kp AMPERSAND    &kp ASTERISK  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp EQUAL
+&trans  &kp EXCLAMATION  &kp AT_SIGN  &kp HASH   &kp DOLLAR        &kp PERCENT          &kp LCTRL       &kp AMPERSAND    &kp ASTERISK  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp EQUAL
 &trans  &kp N1           &kp N2       &kp N3     &kp N4            &kp N5               &kp N6          &kp N7           &kp N8        &kp N9                &kp N0                 &kp MINUS
-&trans  &none            &kp TILDE    &kp GRAVE  &kp LEFT_BRACKET  &kp RIGHT_BRACKET    &kp LEFT_BRACE  &kp RIGHT_BRACE  &trans        &trans                &trans                 &trans
-                         &none        &none      &none             &none                &trans          &trans           &trans        &trans
+&trans  &trans           &kp TILDE    &kp GRAVE  &kp LEFT_BRACKET  &kp RIGHT_BRACKET    &kp LEFT_BRACE  &kp RIGHT_BRACE  &trans        &trans                &trans                 &trans
+                         &trans       &trans     &trans            &trans               &trans          &trans           &trans        &trans
                          &trans       &trans     &trans            &trans               &trans          &trans           &trans        &trans
             >;
         };
